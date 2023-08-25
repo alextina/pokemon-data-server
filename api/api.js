@@ -1,11 +1,13 @@
 const express = require('express');
 const app = express();
-
-const pokemonData = require('./data.json')
+const pokemonData = require('./data.json');
+const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
+    const isLocalhost = req.hostname === 'localhost';
+    const serverUrl = isLocalhost ? `http://localhost:${PORT}` : `https://${req.hostname}`;
     const message = "Welcome to the Pokemon API!";
-    const dataLink = `http://localhost:3000/api/pokemon`;
+    const dataLink = `${serverUrl}/api/pokemon`;
     
     const html = `
         <html>
@@ -19,10 +21,10 @@ app.get('/', (req, res) => {
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    height:100vh;
                 }
                 .container {
                     width: 60%;
-                    margin: 0 auto;
                 }
                 h1 {
                     color: #333;
@@ -37,13 +39,13 @@ app.get('/', (req, res) => {
                     color: #007bff;
                     text-decoration: none;
                 }
-            </style>
+</style>
         </head>
         <body>
             <div class="container">
                 <h1>${message}</h1>
                 <p>Pokemon data is available at: </br> <a href="${dataLink}">${dataLink}</a></p>
-                <h5>© 2023 <a href="https://alextina.pe" target="_blanck">www.alextina.pe</a></h5>    
+                <h5>© 2023 <a href="https://alextina.pe" target="_blank">www.alextina.pe</a></h5>    
             </div>
         </body>
         </html>
@@ -56,8 +58,8 @@ app.get('/api/pokemon', (req, res) => {
     res.json(pokemonData);
 })
 
-const PORT = 3000;
 app.listen(PORT, () => {
-    console.log(`API running at: http://localhost:${PORT}`);
-    console.log(`API endpoint for Pokemon data: http://localhost:${PORT}/api/pokemon`);
+    if (!process.env.PORT) {
+        console.log(`API running at port: http://localhost:${PORT}/`);
+    }
 });
