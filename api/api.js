@@ -10,5 +10,5 @@ app.get('/api/pokemon', (req, res) => {
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`API running at: http://localhost:${PORT}`);
-    console.log(`API endpoint for Pokémon data: http://localhost:${PORT}/api/pokemon`);
+    console.log(`API endpoint for Pokemon data: http://localhost:${PORT}/api/pokemon`);
 });
